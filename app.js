@@ -110,7 +110,8 @@
     const t = now();
     const n = dayNo(t.date);
     let h = `<div class="top"><div><div class="d1">${dateLabel(t.date)} · 第 ${n} 天</div><div class="d2">${CFG.称呼 ? `${greet(t.hour)}，${esc(CFG.称呼)}` : `第 ${n} 天`}</div></div>
-      <span class="wk ${day && day.mode === '周末' ? 'we' : ''}">${day && day.mode === '周末' ? '周末 · 在家做' : '工作日'}</span></div>`;
+      <div class="tot"><span class="wk ${day && day.mode === '周末' ? 'we' : ''}">${day && day.mode === '周末' ? '周末 · 在家做' : '工作日'}</span>
+      <div class="tv">今天约 <b>${CFG.每日热量目标}</b> 千卡</div></div></div>`;
     if (MENU_ERRORS.length) return h + `<div class="res"><div class="main" style="padding:18px 16px"><div class="nm" style="font-size:18px">菜库有写错的地方</div>
       <div class="sp">${MENU_ERRORS.map(esc).join('<br>')}</div></div></div>`;
     if (!day) return h + `<div class="res"><div class="main" style="padding:18px 16px"><div class="nm" style="font-size:18px">今天的菜配不出来</div>
@@ -122,13 +123,6 @@
         <div class="mt">${esc(ms[1])}</div><div class="mp">${esc(ms[2]).replace('{顿}', followCount(t.date))}</div></div>`;
     }
 
-    // 今日目标 + 三段进度条
-    h += `<div class="goal"><div class="g1"><span class="k">今天要吃</span><span class="v">约 ${CFG.每日热量目标}<small>千卡</small></span></div><div class="bar">`;
-    MEALS.forEach(m => { const x = day.meals[m]; h += `<i class="${x.party ? 'party' : x.revealed ? 'on' : ''}"></i>`; });
-    h += `</div><div class="bar-l">`;
-    MEALS.forEach(m => { const x = day.meals[m];
-      h += x.party ? `<span class="party">${m} 聚餐</span>` : x.revealed ? `<span class="on">${m} ${kcalNum(x)}</span>` : `<span>${m}</span>`; });
-    h += `</div></div>`;
 
     const allDone = MEALS.every(m => done(day.meals[m]));
     h += segHtml(day, allDone && !S.peek);
@@ -159,7 +153,10 @@
       const x = day.meals[m];
       const mark = x.party ? '<span class="ck">🍻</span>' : x.rec ? `<span class="ck ${S.newCk === m ? 'new' : ''}">✓</span>` :
         C.isPassed(m, hour, CFG) ? '<i class="rd"></i>' : '';
-      h += `<button class="${m === S.cur && !none ? 'on' : ''}" data-act="meal" data-meal="${m}">${m}${mark}</button>`;
+      // 每顿一格：餐名 + 这顿的热量，底下一条小进度（揭晓了就变绿，聚餐是橙色）
+      const sub = x.party ? '聚餐' : x.revealed ? `${kcalNum(x)} 千卡` : '待揭晓';
+      h += `<button class="${m === S.cur && !none ? 'on' : ''}" data-act="meal" data-meal="${m}"><span class="sn">${m}${mark}</span>
+        <span class="sk ${x.revealed || x.party ? 'v' : ''}">${sub}</span><i class="sb ${x.party ? 'party' : x.revealed ? 'on' : ''}"></i></button>`;
     });
     return h + '</div>';
   }
@@ -167,8 +164,9 @@
   function cardHtml(day, m) {
     const meal = day.meals[m], recorded = !!meal.rec, weekend = day.mode === '周末';
     const ds = meal.items.map(dish);
-    let h = `<div class="res ${S.pop ? 'pop' : ''}"><div class="rh"><span>${m} · ${placeOf(day, m)}</span><span class="kc">${kcalText(meal)}</span></div>`;
-    if (ds.length === 1 && !weekend) {
+    const multi = !(ds.length === 1 && !weekend);
+    let h = `<div class="res ${S.pop ? 'pop' : ''}"><div class="rh"><span>${m} · ${placeOf(day, m)}</span><span class="rr"><span class="kc">${kcalText(meal)}</span>${multi ? '<button class="mo" data-act="sheet" data-sheet="more" aria-label="更多">⋯</button>' : ''}</span></div>`;
+    if (!multi) {
       const d = ds[0];
       h += `<div class="main"><div class="nm ${S.flash && S.flash.meal === m ? 'flash' : ''}">${esc(d.菜名)}${d.份数 > 1 ? ' ×' + d.份数 : ''}</div>
         <div class="sp">${esc(d.店名)}</div>${d.点单规则 ? `<div class="how"><b>怎么点</b>${esc(d.点单规则)}</div>` : ''}
@@ -187,7 +185,7 @@
           ${d.做法 ? `<button class="hw" data-act="how" data-id="${d.菜品ID}">${open ? '收起做法' : '看做法 ›'}</button>${open ? `<div class="hwt">${esc(d.做法)}</div>` : ''}` : ''}
           </div>${recorded ? '' : `<button class="sw" data-act="swap" data-idx="${i}" aria-label="换一道">↻</button>`}</div>`;
       });
-      h += `</div>` + hintHtml(day, m) + `<div class="ops" style="padding-top:6px"><button class="ob more wide" data-act="sheet" data-sheet="more">⋯ 更多</button></div>`;
+      h += `</div>` + hintHtml(day, m);
     }
     const ate = meal.rec === '换了别的' && meal.ate ? (meal.ate.菜品ID ? dish(meal.ate.菜品ID)?.菜名 : meal.ate.文字) : '';
     h += `<div class="rec"><div class="rl">${recorded ? '已记录，今天内可以改' : '吃完点一下'}${ate ? `　实际吃了：<b>${esc(ate)}</b>` : ''}</div><div class="rb">` +
