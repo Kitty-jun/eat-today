@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fffdf9">
+<title>今天吃这个</title>
+<!-- 改了 css/js 以后把 ?v= 后面的版本号改一下，手机才不会用旧缓存 -->
+<link rel="stylesheet" href="style.css?v=20261110d">
+</head>
+<body>
+<div id="app">
+  <main id="view"></main>
+  <nav class="tabbar">
+    <button data-act="tab" data-tab="today"><b>🍽</b>今天</button>
+    <button data-act="tab" data-tab="log"><b>📋</b>记录</button>
+  </nav>
+  <div id="layer"></div>
+</div>
+<script src="食材营养.js?v=20261110d"></script>
+<script src="menu.js?v=20261110d"></script>
+<script src="core.js?v=20261110d"></script>
+<script src="app.js?v=20261110d"></script>
+</body>
+</html>

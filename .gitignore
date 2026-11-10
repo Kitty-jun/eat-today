@@ -1,0 +1,9 @@
+# 只发布页面运行需要的文件；需求文档（含身体数据）、设计稿、测试脚本都不上传
+*
+!.gitignore
+!index.html
+!style.css
+!app.js
+!core.js
+!menu.js
+!食材营养.js
