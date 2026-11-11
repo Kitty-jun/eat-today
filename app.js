@@ -1,4 +1,4 @@
-// 今天吃这个 · 页面和交互（规则在 core.js，菜库在 menu.js）
+// 今天吃什么 · 页面和交互（规则在 core.js，菜库在 menu.js）
 (function () {
   const C = window.Core, MENU = window.MENU, CFG = window.CONFIG;
   // 按食材和成分表算出每道菜的营养；食材名写错会列在这里
@@ -172,7 +172,7 @@
         <div class="sp">${esc(d.店名)}</div>${d.点单规则 ? `<div class="how"><b>怎么点</b>${esc(d.点单规则)}</div>` : ''}
         <div class="meta"><span>蛋白质约 ${d.蛋白质} g</span>${d.蔬菜克数 > 0 ? '<span>有蔬菜</span>' : ''}</div></div>`;
       h += hintHtml(day, m);
-      h += `<div class="ops">${recorded ? '' : '<button class="ob" data-act="swap" data-idx="0">↻ 换一道</button>'}
+      h += `<div class="ops">${recorded ? '' : '<button class="ob swp" data-act="swap" data-idx="0">↻ 换一个</button>'}
         <button class="ob more ${recorded ? 'wide' : ''}" data-act="sheet" data-sheet="more">${recorded ? '⋯ 更多' : '⋯'}</button></div>`;
     } else {
       h += `<div class="items">`;
@@ -183,7 +183,7 @@
           <b>${esc(d.菜名)}${d.份数 > 1 ? ' ×' + d.份数 : ''}</b><small>${sub}</small>
           ${d.点单规则 ? `<div class="rule">${esc(d.点单规则)}</div>` : ''}
           ${d.做法 ? `<button class="hw" data-act="how" data-id="${d.菜品ID}">${open ? '收起做法' : '看做法 ›'}</button>${open ? `<div class="hwt">${esc(d.做法)}</div>` : ''}` : ''}
-          </div>${recorded ? '' : `<button class="sw" data-act="swap" data-idx="${i}" aria-label="换一道">↻</button>`}</div>`;
+          </div>${recorded ? '' : `<button class="sw" data-act="swap" data-idx="${i}" aria-label="换一个">↻ 换一个</button>`}</div>`;
       });
       h += `</div>` + hintHtml(day, m);
     }
@@ -333,7 +333,7 @@
   }
 
   function introHtml() {
-    return `<div class="intro"><div class="wrap"><div class="ie">🥗</div>${CFG.称呼 ? `<div class="hi">Hello，${esc(CFG.称呼)}</div>` : ''}<div class="it1">今天吃这个</div><div class="it2">每顿吃什么，抽一下就知道</div>
+    return `<div class="intro"><div class="wrap"><div class="ie">🥗</div>${CFG.称呼 ? `<div class="hi">Hello，${esc(CFG.称呼)}</div>` : ''}<div class="it1">今天吃什么</div><div class="it2">每顿吃什么，抽一下就知道</div>
       <div class="ib"><div>🎯 <span>每天大约吃 <b>${CFG.每日热量目标} 千卡</b>，蛋白质至少 ${CFG.蛋白质下限} g，蔬菜至少 ${CFG.蔬菜下限} g</span></div>
       <div>👆 <span>每顿点一下"抽"，揭晓吃什么</span></div><div>✅ <span>吃完点一下，记录会帮你数</span></div></div>
       <div class="safe">这是给家人用的饮食参考，不是医疗建议。出现头晕、乏力，或者饿到影响工作和睡眠，就停下来，多吃一点。有慢性病的人，减重前先问医生。</div>

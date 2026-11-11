@@ -94,6 +94,7 @@ button{font-family:inherit;color:inherit}
 .meta span{font-size:12px;background:var(--chip);border-radius:20px;padding:1px 9px;color:var(--sub)}
 .ops{display:flex;gap:8px;padding:12px 16px 14px}
 .ob{flex:1;height:40px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.ob.swp{background:var(--main-soft);border-color:var(--main-2);color:var(--main);font-weight:700}
 .ob.more{flex:none;width:46px;color:var(--sub)}
 .ob.wide{flex:1;width:auto}
 .items{padding:4px 16px 0}
@@ -105,7 +106,7 @@ button{font-family:inherit;color:inherit}
 .it .in .rule{font-size:13px;color:#2a5a3f;background:var(--main-soft);border-radius:8px;padding:3px 8px;margin-top:4px;display:inline-block}
 .it .in .hw{font-size:12px;color:var(--main);background:none;border:0;padding:2px 0;cursor:pointer}
 .it .in .hwt{font-size:12.5px;background:var(--chip);border-radius:8px;padding:6px 8px;margin-top:4px}
-.it .sw{width:32px;height:32px;border-radius:50%;background:var(--chip);border:0;font-size:15px;color:var(--main);cursor:pointer;flex:none;margin-top:2px}
+.it .sw{height:32px;padding:0 11px;border-radius:16px;background:var(--main-soft);border:1.5px solid var(--main-2);font-size:13px;font-weight:700;color:var(--main);white-space:nowrap;cursor:pointer;flex:none;margin-top:2px}
 .it.flash{animation:flash 1s}
 @keyframes flash{0%{background:var(--main-soft)}100%{background:transparent}}
 .nm.flash{animation:flash 1s;border-radius:8px}
