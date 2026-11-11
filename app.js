@@ -333,7 +333,7 @@
   }
 
   function introHtml() {
-    return `<div class="intro"><div class="wrap"><div class="ie">🥗</div>${CFG.称呼 ? `<div class="hi">Hello，${esc(CFG.称呼)}</div>` : ''}<div class="it1">今天吃什么</div><div class="it2">每顿吃什么，抽一下就知道</div>
+    return `<div class="intro"><div class="wrap"><div class="ie">🥗</div>${CFG.称呼 ? `<div class="hi">Hello，${esc(CFG.称呼)}</div>` : ''}<div class="it1">今天吃什么</div><div class="it2">每顿抽一下就知道</div>
       <div class="ib"><div>🎯 <span>每天大约吃 <b>${CFG.每日热量目标} 千卡</b>，蛋白质至少 ${CFG.蛋白质下限} g，蔬菜至少 ${CFG.蔬菜下限} g</span></div>
       <div>👆 <span>每顿点一下"抽"，揭晓吃什么</span></div><div>✅ <span>吃完点一下，记录会帮你数</span></div></div>
       <div class="safe">这是给家人用的饮食参考，不是医疗建议。出现头晕、乏力，或者饿到影响工作和睡眠，就停下来，多吃一点。有慢性病的人，减重前先问医生。</div>
